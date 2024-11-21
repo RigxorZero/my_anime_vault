@@ -18,6 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();  // Usamos el GlobalKey para la navegación
   late AppLinks _appLinks;
+  String accessToken = '';  // Almacenar el token de acceso
   StreamSubscription<Uri>? _linkSubscription;
 
   final String clientId = '22577'; // Reemplaza con tu client_id
@@ -41,10 +42,10 @@ class _MyAppState extends State<MyApp> {
 
   // Manejar el enlace de redirección
   void _handleRedirectUri(Uri uri) {
-    final accessToken = _extractAccessToken(uri);
+    accessToken = _extractAccessToken(uri)!;
     if (accessToken != null) {
       print("Access Token: $accessToken");
-      _navigateToHome();  // Navegar a la pantalla principal
+      _navigateToHome(accessToken);  // Navegar a la pantalla principal
     }
   }
 
@@ -78,12 +79,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Navegar a la pantalla de inicio (HomeScreen)
-  void _navigateToHome() {
-    // Usamos _navigatorKey para navegar correctamente
+  void _navigateToHome(String accessToken) {
     _navigatorKey.currentState?.pushReplacement(
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(accessToken: accessToken), // Pasando el token
+      ),
     );
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {

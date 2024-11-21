@@ -1,0 +1,1 @@
+ C:\\Users\\Hector\\Documents\\GitHub\\my_anime_vault\\.dart_tool\\flutter_build\\6f9e6de830a24cc327d096e1ccc6ed17\\native_assets.yaml: 
