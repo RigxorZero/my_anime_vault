@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:translator/translator.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
 class AnimeDetailScreen extends StatefulWidget {
   final String title;
@@ -46,17 +46,55 @@ class AnimeDetailScreen extends StatefulWidget {
 }
 
 class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
-  final translator = GoogleTranslator();
+  static const Map<String, String> genreTranslations = {
+    "Action": "Acción",
+    "Adventure": "Aventura",
+    "Comedy": "Comedia",
+    "Drama": "Drama",
+    "Ecchi": "Ecchi",
+    "Fantasy": "Fantasía",
+    "Hentai": "Hentai",
+    "Horror": "Horror",
+    "Mahou Shoujo": "Mahou Shoujo",
+    "Mecha": "Mecha",
+    "Music": "Música",
+    "Mystery": "Misterio",
+    "Psychological": "Psicológico",
+    "Romance": "Romance",
+    "Sci-Fi": "Ciencia Ficción",
+    "Slice of Life": "Slice of Life",
+    "Sports": "Deportes",
+    "Supernatural": "Sobrenatural",
+    "Thriller": "Thriller"
+  };
+
   late Future<String> translatedDescription;
   late Future<String> translatedGenres;
   late Future<String> translatedSeason;
+  late Gemini gemini;
 
   @override
   void initState() {
     super.initState();
-    translatedDescription = translator.translate(widget.description, to: 'es').then((value) => value.text);
-    translatedGenres = translator.translate(widget.genres, to: 'es').then((value) => value.text);
+    gemini = Gemini.instance;
+    translatedDescription = translateText(widget.description);
+    translatedGenres = Future.value(translateGenres(widget.genres));
     translatedSeason = Future.value(translateSeason(widget.season));
+  }
+
+  Future<String> translateText(String text) async {
+    final gemini = Gemini.instance;
+    try {
+      final response = await gemini.text("Translate this text to Spanish, keeping the original formatting: $text");
+      return response?.output ?? text;
+    } catch (e) {
+      print(e);
+      return text;
+    }
+  }
+
+  String translateGenres(String genres) {
+    return genres.split(', ').map((genre) => genreTranslations[genre] ?? genre).join(', ');
   }
 
   String translateSeason(String season) {
@@ -98,20 +136,16 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
 
     for (final match in matches) {
       if (match.group(1) != null) {
-        print('Italic match: ${match.group(1)}');
         spans.addAll(_processDescription(match.group(1)!.replaceAll(RegExp(r'<\/?i>'), '')).map((span) {
           return TextSpan(text: span.text, style: span.style?.merge(const TextStyle(fontStyle: FontStyle.italic)));
         }));
       } else if (match.group(2) != null) {
-        print('Bold match: ${match.group(2)}');
         spans.addAll(_processDescription(match.group(2)!.replaceAll(RegExp(r'<\/?b>'), '')).map((span) {
           return TextSpan(text: span.text, style: span.style?.merge(const TextStyle(fontWeight: FontWeight.bold)));
         }));
       } else if (match.group(3) != null) {
-        print('Line break match');
         spans.add(const TextSpan(text: '\n'));
       } else if (match.group(4) != null) {
-        print('Text match: ${match.group(4)}');
         spans.add(TextSpan(text: match.group(4)));
       }
     }
@@ -178,7 +212,6 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                     child: Text('Error: ${snapshot.error}'),
                   );
                 } else {
-                  print('Translated description: ${snapshot.data}');
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: RichText(

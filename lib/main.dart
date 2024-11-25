@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:app_links/app_links.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'screens/home_screen.dart';  // Importamos la nueva pantalla
 
 void main() {
+  // Inicializa Gemini antes de ejecutar la aplicación
+  Gemini.init(apiKey: 'AIzaSyARs1slCvk_kximz_x4SQPfNFJVAxOJf6Q');
+
   runApp(const MyApp());
 }
 
@@ -20,7 +24,6 @@ class _MyAppState extends State<MyApp> {
   late AppLinks _appLinks;
   String accessToken = '';  // Almacenar el token de acceso
   StreamSubscription<Uri>? _linkSubscription;
-
   final String clientId = '22577'; // Reemplaza con tu client_id
   final String redirectUri = 'myapp://callback'; // Asegúrate de que coincida con tu esquema en iOS/Android
 
@@ -86,9 +89,6 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
