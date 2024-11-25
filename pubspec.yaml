@@ -40,6 +40,8 @@ dependencies:
   app_links: ^6.3.2
   http: ^1.2.2
   graphql_flutter: ^5.1.2
+  intl: ^0.20.0
+  translator: ^1.0.3+1
 
 dev_dependencies:
   flutter_test:
