@@ -104,37 +104,37 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: _navigatorKey, // Asignamos el GlobalKey al MaterialApp
+      navigatorKey: _navigatorKey, 
       home: Scaffold(
         appBar: AppBar(
           title: Text(
             'Bienvenido a My Anime Vault!',
             style: GoogleFonts.poppins(
-              fontSize: 24, // Tamaño más grande
+              fontSize: 24, 
               fontWeight: FontWeight.bold,
-              color: Colors.white, // Blanco
+              color: Colors.white, 
             ),
           ),
-          backgroundColor: const Color(0xFF403D73), // Color azul oscuro
+          backgroundColor: const Color(0xFF403D73),
         ),
         body: Stack(
           children: [
             Container(
-              color: const Color(0xFFE0B7DD), // Fondo morado claro
+              color: const Color(0xFFE0B7DD), 
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start, // Coloca los elementos en la parte superior
+                mainAxisAlignment: MainAxisAlignment.start, 
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 50), // Ajuste para bajar el texto
+                    padding: const EdgeInsets.only(top: 50), 
                     child: Text(
                       'My Anime Vault es tu baúl de secretos!! Con esta aplicación jamás olvidarás ningún detalle de tus animes favoritos, escribe tus reseñas, capítulos favoritos. Te recordaremos lo más importante del mundo del anime! No esperes más, crea tu cuenta y unete a la familia de My Anime!! :3',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
-                        fontSize: 18, // Tamaño de letra del mensaje
-                        fontWeight: FontWeight.w500, // Peso medio
-                        color: const Color(0xFF403D73), // Azul oscuro
+                        fontSize: 18, 
+                        fontWeight: FontWeight.w500, 
+                        color: const Color(0xFF403D73), 
                       ),
                     ),
                   ),
@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
                   ElevatedButton(
                     onPressed: _loginWithAniList,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 0, 140), // Color rosado claro
+                      backgroundColor: const Color.fromARGB(255, 245, 197, 40), 
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -153,7 +153,7 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 255, 255, 255), // Azul oscuro
+                        color: Color.fromARGB(255, 26, 21, 46), 
                       ),
                     ),
                   ),
@@ -161,7 +161,7 @@ class _MyAppState extends State<MyApp> {
                   ElevatedButton(
                     onPressed: _navigateToAboutPage, // Usamos el método con _navigatorKey
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 233, 95, 171), // Azul oscuro
+                      backgroundColor: const Color.fromARGB(255, 245, 197, 40), 
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -172,7 +172,7 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white, // Blanco
+                        color: Color.fromARGB(255, 26, 21, 46), 
                       ),
                     ),
                   ),
