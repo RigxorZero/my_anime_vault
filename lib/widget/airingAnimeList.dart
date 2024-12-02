@@ -78,13 +78,13 @@ class _AiringAnimeListState extends State<AiringAnimeList> {
                   final source = anime['source'];
                   final episodes = anime['episodes'] ?? 0;
                   final status = anime['status'];
-                  final season = anime['season'];
+                  final season = anime['season'] ?? 'Desconocido';
                   final seasonYear = anime['seasonYear'];
                   final studio = (anime['studios'] != null && anime['studios']['nodes'] != null && anime['studios']['nodes'].isNotEmpty)
                       ? anime['studios']['nodes'][0]['name']
                       : 'Desconocido';
                   final romajiTitle = anime['title']['romaji'];
-                  final englishTitle = anime['title']['english'];
+                  final englishTitle = anime['title']['english'] ?? 'Sin traducción';
                   final nativeTitle = anime['title']['native'];
 
                   final currentEpisode = nextAiringEpisode?['episode'];
