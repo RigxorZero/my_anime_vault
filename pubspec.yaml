@@ -47,6 +47,8 @@ flutter:
   assets:
     - assets/icon/MyIcon.png
     - assets/icon/Niña.svg
+    - assets/icon/hector.png
+    - assets/icon/javita.png
 
   # Example for adding custom fonts to your application
   # fonts:

@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart'; // Librería para fuentes bonit
 import 'package:app_links/app_links.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // Nueva librería para SVG
-import 'screens/home_screen.dart'; // Importamos la nueva pantalla
+// Nueva librería para SVG
+import 'screens/home_screen.dart'; // Importamos la pantalla principal
+import 'screens/about_page.dart'; // Importamos la pantalla de "Acerca de"
 
 void main() {
   // Inicializa Gemini antes de ejecutar la aplicación
@@ -48,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   // Manejar el enlace de redirección
   void _handleRedirectUri(Uri uri) {
     accessToken = _extractAccessToken(uri)!;
-    if (accessToken != null) {
+    if (accessToken.isNotEmpty) {
       print("Access Token: $accessToken");
       _navigateToHome(accessToken); // Navegar a la pantalla principal
     }
@@ -66,7 +67,7 @@ class _MyAppState extends State<MyApp> {
   // Iniciar el flujo de autenticación
   Future<void> _loginWithAniList() async {
     final authorizationUrl = Uri.parse('https://anilist.co/api/v2/oauth/authorize').replace(queryParameters: {
-      'client_id': '22577',
+      'client_id': clientId,
       'response_type': 'token',
     });
 
@@ -91,6 +92,15 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  // Navegar a la pantalla AboutPage usando _navigatorKey
+  void _navigateToAboutPage() {
+    _navigatorKey.currentState?.push(
+      MaterialPageRoute(
+        builder: (context) => const AboutPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -105,12 +115,12 @@ class _MyAppState extends State<MyApp> {
               color: Colors.white, // Blanco
             ),
           ),
-          backgroundColor: const Color(0xFF3F3D73), // Color azul de la paleta
+          backgroundColor: const Color(0xFF403D73), // Color azul oscuro
         ),
         body: Stack(
           children: [
             Container(
-              color: const Color.fromARGB(255, 224, 183, 221), // Fondo blanco
+              color: const Color(0xFFE0B7DD), // Fondo morado claro
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start, // Coloca los elementos en la parte superior
@@ -119,20 +129,20 @@ class _MyAppState extends State<MyApp> {
                   Padding(
                     padding: const EdgeInsets.only(top: 50), // Ajuste para bajar el texto
                     child: Text(
-                      'My Anime Vault es tu baúl de secretos!! Con esta aplicación jamás olvidarás ningún detalle de tus animes favoritos, escribe tus reseñas, capítulos favoritos. Te recordaremos lo más importante del mundo del anime! No esperes más, crea tu cuenta y unete a la familia de My Animey!! :3',
+                      'My Anime Vault es tu baúl de secretos!! Con esta aplicación jamás olvidarás ningún detalle de tus animes favoritos, escribe tus reseñas, capítulos favoritos. Te recordaremos lo más importante del mundo del anime! No esperes más, crea tu cuenta y unete a la familia de My Anime!! :3',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         fontSize: 18, // Tamaño de letra del mensaje
                         fontWeight: FontWeight.w500, // Peso medio
-                        color: const Color(0xFF3F3D73), // Azul oscuro
+                        color: const Color(0xFF403D73), // Azul oscuro
                       ),
                     ),
                   ),
-                  const SizedBox(height: 80), // Espacio grande para separar el texto del botón
+                  const SizedBox(height: 20), // Espacio entre el texto y botones
                   ElevatedButton(
                     onPressed: _loginWithAniList,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF2D5CE), // Amarillo
+                      backgroundColor: const Color(0xFFF2D5CE), // Color rosado claro
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -143,20 +153,30 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF3F3D73), // Blanco para contraste
+                        color: Color(0xFF403D73), // Azul oscuro
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _navigateToAboutPage, // Usamos el método con _navigatorKey
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF403D73), // Azul oscuro
+                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'Acerca de',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white, // Blanco
                       ),
                     ),
                   ),
                 ],
-              ),
-            ),
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: SvgPicture.asset(
-                'assets/icon/Niña.svg',
-                width: 140, // Ícono un poco más grande
-                height: 140, // Ícono un poco más grande
               ),
             ),
           ],
