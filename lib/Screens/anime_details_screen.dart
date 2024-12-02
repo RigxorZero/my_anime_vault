@@ -158,6 +158,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: const Color.fromARGB(255, 224, 183, 221), // Aquí es donde se cambia el color azul
       ),
       body: SingleChildScrollView(
         child: Column(

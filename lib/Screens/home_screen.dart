@@ -37,9 +37,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return GraphQLProvider(
       client: client,
       child: Scaffold(
-        appBar: AppBar(title: const Text('My Anime Vault')),
-        body: AiringAnimeList(
-          fetchAiringAnimeAndScheduleQuery: """
+        appBar: AppBar(
+          title: const Text(
+            'My Anime Vault',
+            style: TextStyle(
+              fontSize: 20, // Tamaño más grande para consistencia
+              fontWeight: FontWeight.bold,
+              color: Colors.white, // Texto blanco
+            ),
+          ),
+          backgroundColor: const Color(0xFF3F3D73), // Color del AppBar (azul de la paleta)
+        ),
+        body: Container(
+          color: const Color.fromARGB(255, 224, 183, 221), // Fondo con el color rosado claro (#F2D5CE)
+          child: AiringAnimeList(
+            fetchAiringAnimeAndScheduleQuery: """
 query (\$page: Int = 1, \$perPage: Int = 10) {
   Page(page: \$page, perPage: \$perPage) {
     media(status: RELEASING, type: ANIME, sort: POPULARITY_DESC) {
@@ -82,6 +94,7 @@ query (\$page: Int = 1, \$perPage: Int = 10) {
   }
 }
 """,
+          ),
         ),
       ),
     );
