@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
                   ElevatedButton(
                     onPressed: _loginWithAniList,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF2D5CE), // Color rosado claro
+                      backgroundColor: const Color.fromARGB(255, 255, 0, 140), // Color rosado claro
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -153,7 +153,7 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF403D73), // Azul oscuro
+                        color: Color.fromARGB(255, 255, 255, 255), // Azul oscuro
                       ),
                     ),
                   ),
@@ -161,7 +161,7 @@ class _MyAppState extends State<MyApp> {
                   ElevatedButton(
                     onPressed: _navigateToAboutPage, // Usamos el método con _navigatorKey
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF403D73), // Azul oscuro
+                      backgroundColor: const Color.fromARGB(255, 233, 95, 171), // Azul oscuro
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

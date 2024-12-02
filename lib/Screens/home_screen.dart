@@ -224,7 +224,8 @@ query (\$page: Int = 1, \$perPage: Int = 50) {
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
+          selectedItemColor: const Color.fromARGB(255, 255, 0, 140),
+          unselectedItemColor: const Color.fromARGB(255, 0, 0, 0), // Color de los íconos no seleccionados
           onTap: _onItemTapped,
         ),
       ),
