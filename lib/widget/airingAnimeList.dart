@@ -8,7 +8,7 @@ class AiringAnimeList extends StatefulWidget {
 
   const AiringAnimeList({
     Key? key,
-    required this.fetchAiringAnimeAndScheduleQuery,
+    required this.fetchAiringAnimeAndScheduleQuery, required List animeData, required Map<String, String?> variables,
   }) : super(key: key);
 
   @override

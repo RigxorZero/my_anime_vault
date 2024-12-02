@@ -1,0 +1,43 @@
+[33mcommit 218977e65ae22bd75fba93ed8b6a51665a16b4af[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: JaviB <javiera.belen.b.h@gmail.com>
+Date:   Mon Dec 2 02:29:37 2024 -0300
+
+    Creación Paleta de colores, Cambio en la pantalla de inicio, añadir icono de la app
+
+[33mcommit cd6b19367013c60678f8fdb939a00d91f4895192[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: RigxorZero <127953440+RigxorZero@users.noreply.github.com>
+Date:   Mon Nov 25 11:44:21 2024 -0300
+
+    Integración de IA para traducir
+    
+    Se añadio la IA Gemini para traducir los textos
+
+[33mcommit 7054572e9ca2bf9186e86833438e9b4eed7ad34f[m
+Author: RigxorZero <127953440+RigxorZero@users.noreply.github.com>
+Date:   Sun Nov 24 21:22:03 2024 -0300
+
+    Pantalla de inicio y detalle
+    
+    La pantalla de inicio muestra los anime en emisión, la de detalles información, como estaba en ingles tuve que usar una librería pero aún así las traducciones tienen varios errores, lamentablemente el traducirlas manualmente es imposible
+
+[33mcommit dcf01133ef248d6e6751da69a3946973a0b4fe72[m
+Author: RigxorZero <127953440+RigxorZero@users.noreply.github.com>
+Date:   Thu Nov 21 10:34:31 2024 -0300
+
+    Visualización de series
+    
+    Se pueden ver algunas series, consulta preliminar
+
+[33mcommit ece70440b9000ce931aac66e3db7428f80d556af[m
+Author: RigxorZero <127953440+RigxorZero@users.noreply.github.com>
+Date:   Wed Nov 20 23:32:22 2024 -0300
+
+    Conexión a api lograda
+    
+    La app se conecta correctamente a la API de AniList
+
+[33mcommit d27fa6b600bd0205cc9e90dc274f0052c66d140e[m
+Author: RigxorZero <127953440+RigxorZero@users.noreply.github.com>
+Date:   Wed Nov 20 20:05:09 2024 -0300
+
+    Initial commit
