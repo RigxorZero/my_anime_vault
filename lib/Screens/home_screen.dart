@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:my_anime_vault/widget/airingAnimeList.dart'; // Asegúrate de importar el archivo correcto
-import 'package:my_anime_vault/widget/searchAnimeList.dart'; // Asegúrate de importar el archivo correcto
+import 'package:my_anime_vault/Screens/search_screen.dart';
+import 'package:my_anime_vault/widget/airingAnimeList.dart';
+//import 'package:my_anime_vault/screens/favorites_screen.dart'; // Asegúrate de importar el archivo correcto
+//import 'package:my_anime_vault/screens/profile_screen.dart'; // Asegúrate de importar el archivo correcto
 
 class HomeScreen extends StatefulWidget {
   final String accessToken;
@@ -15,10 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late ValueNotifier<GraphQLClient> client;
   String selectedCategory = 'All';
-  String searchQuery = '';
-  bool isSearching = false;
-  bool searchPressed = false;
-  final TextEditingController _searchController = TextEditingController();
+  int _selectedIndex = 0;
 
   static const Map<String, String> genreTranslations = {
     "Action": "Acción",
@@ -110,60 +109,79 @@ query (\$page: Int = 1, \$perPage: Int = 50) {
 """;
   }
 
-  String get searchAnimeQuery {
-    return """
-query (\$search: String, \$page: Int = 1, \$perPage: Int = 50) {
-  Page(page: \$page, perPage: \$perPage) {
-    media(search: \$search, type: ANIME, sort: POPULARITY_DESC) {
-      id
-      title {
-        romaji
-        english
-        native
-      }
-      coverImage {
-        large
-      }
-      episodes
-      nextAiringEpisode {
-        episode
-        airingAt
-      }
-      genres
-      description
-      startDate {
-        year
-        month
-        day
-      }
-      endDate {
-        year
-        month
-        day
-      }
-      source
-      status
-      season
-      seasonYear
-      studios {
-        nodes {
-          name
-        }
-      }
-    }
-  }
-}
-""";
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
-  void _performSearch() {
-    setState(() {
-      searchQuery = _searchController.text;
-      isSearching = searchQuery.isNotEmpty;
-      searchPressed = searchQuery.isNotEmpty;
-      print("Search query: $searchQuery");
-      print("Is searching: $isSearching");
-    });
+  Widget _buildBody() {
+    switch (_selectedIndex) {
+      case 0:
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<String>(
+                      value: selectedCategory,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCategory = newValue!;
+                        });
+                      },
+                      items: categories.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      isExpanded: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Query(
+                options: QueryOptions(
+                  document: gql(fetchAiringAnimeAndScheduleQuery),
+                  variables: {'page': 1, 'perPage': 50},
+                ),
+                builder: (QueryResult result, {VoidCallback? refetch, FetchMore? fetchMore}) {
+                  if (result.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (result.hasException) {
+                    return Center(child: Text(result.exception.toString()));
+                  }
+                  if (result.data == null) {
+                    return const Center(child: Text("No data found"));
+                  }
+
+                  final animeList = result.data!['Page']['media'];
+
+                  return AiringAnimeList(
+                    fetchAiringAnimeAndScheduleQuery: fetchAiringAnimeAndScheduleQuery,
+                    animeData: animeList,
+                    variables: {},
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      case 1:
+        return SearchScreen(accessToken: widget.accessToken); // Asegúrate de importar y definir SearchScreen
+      case 2:
+        //return FavoritesScreen(); // Asegúrate de importar y definir FavoritesScreen
+      case 3:
+        //return ProfileScreen(); // Asegúrate de importar y definir ProfileScreen
+      default:
+        return Container();
+    }
   }
 
   @override
@@ -173,7 +191,7 @@ query (\$search: String, \$page: Int = 1, \$perPage: Int = 50) {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Temporada actual',
+            'My Anime Vault',
             style: TextStyle(
               fontSize: 20, // Tamaño más grande para consistencia
               fontWeight: FontWeight.bold,
@@ -184,116 +202,30 @@ query (\$search: String, \$page: Int = 1, \$perPage: Int = 50) {
         ),
         body: Container(
           color: const Color.fromARGB(255, 224, 183, 221), // Fondo con el color rosado claro (#F2D5CE)
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end, // Alinear a la derecha
-                  children: [
-                    DropdownButton<String>(
-                      value: selectedCategory,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCategory = newValue!;
-                          isSearching = false;
-                          searchPressed = false;
-                        });
-                      },
-                      items: categories.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: const InputDecoration(
-                          labelText: 'Buscar por nombre',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (text) {
-                          if (text.isEmpty) {
-                            setState(() {
-                              searchPressed = false;
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: _performSearch,
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: searchPressed
-                    ? Query(
-                        options: QueryOptions(
-                          document: gql(searchAnimeQuery),
-                          variables: {'search': searchQuery.toLowerCase(), 'page': 1, 'perPage': 50},
-                        ),
-                        builder: (QueryResult result, {VoidCallback? refetch, FetchMore? fetchMore}) {
-                          print("isSearching: $isSearching");
-                          print("Query result: ${result.data}");
-                          if (result.isLoading) {
-                            return const Center(child: CircularProgressIndicator());
-                          }
-                          if (result.hasException) {
-                            return Center(child: Text(result.exception.toString()));
-                          }
-                          if (result.data == null) {
-                            return const Center(child: Text("No data found"));
-                          }
-
-                          final animeList = result.data!['Page']['media'];
-
-                          return SearchAnimeList(
-                            animeData: animeList,
-                          );
-                        },
-                      )
-                    : Query(
-                        options: QueryOptions(
-                          document: gql(fetchAiringAnimeAndScheduleQuery),
-                          variables: {'page': 1, 'perPage': 50},
-                        ),
-                        builder: (QueryResult result, {VoidCallback? refetch, FetchMore? fetchMore}) {
-                          print("isSearching: $isSearching");
-                          print("Query result: ${result.data}");
-                          if (result.isLoading) {
-                            return const Center(child: CircularProgressIndicator());
-                          }
-                          if (result.hasException) {
-                            return Center(child: Text(result.exception.toString()));
-                          }
-                          if (result.data == null) {
-                            return const Center(child: Text("No data found"));
-                          }
-
-                          final animeList = result.data!['Page']['media'];
-
-                          return AiringAnimeList(
-                            fetchAiringAnimeAndScheduleQuery: fetchAiringAnimeAndScheduleQuery,
-                            animeData: animeList,
-                            variables: {},
-                          );
-                        },
-                      ),
-              ),
-            ],
-          ),
+          child: _buildBody(),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Temporada',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Buscar',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favoritos',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
         ),
       ),
     );
