@@ -12,7 +12,11 @@ class SearchAnimeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.7,
+      ),
       itemCount: animeData.length,
       itemBuilder: (context, index) {
         final anime = animeData[index];
@@ -78,10 +82,12 @@ class SearchAnimeList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 coverImage != null
-                    ? Image.network(
-                        coverImage,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                    ? Flexible(
+                        child: Image.network(
+                          coverImage,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       )
                     : Container(height: 150, color: Colors.grey),
                 Padding(
