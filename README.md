@@ -1,6 +1,9 @@
 # my_anime_vault
 Aplicación desarrollada por Javiera Baeza y Héctor Villalobos
 
+**Link a presentación**
+[Presentación](https://youtu.be/HtyBc6YMCbE)
+
 ## ¿En qué consiste?
 
 La aplicación busca entregar un tracker para fanáticos de anime, para visualizar series de anime y manga, permitiendo crear una lista personalizada en donde pueda registrar su progreso, fechas de estreno e información.
