@@ -28,4 +28,4 @@ La aplicación busca entregar un tracker para fanáticos de anime, para visualiz
 
 ## Paleta de Colores Utilizada
 
-![Paleta de Colores](assets/images/Paleta de colores.png)
+![Paleta de Colores](assets/images/PaletaColores.png)
