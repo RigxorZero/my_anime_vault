@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:my_anime_vault/Screens/favorite_screen.dart';
 import 'package:my_anime_vault/Screens/search_screen.dart';
 import 'package:my_anime_vault/widget/airingAnimeList.dart';
 //import 'package:my_anime_vault/screens/favorites_screen.dart'; // Asegúrate de importar el archivo correcto
@@ -176,9 +177,7 @@ query (\$page: Int = 1, \$perPage: Int = 50) {
       case 1:
         return SearchScreen(accessToken: widget.accessToken); // Asegúrate de importar y definir SearchScreen
       case 2:
-        //return FavoritesScreen(); // Asegúrate de importar y definir FavoritesScreen
-      case 3:
-        //return ProfileScreen(); // Asegúrate de importar y definir ProfileScreen
+        return FavoriteScreen(); // Asegúrate de importar y definir FavoritesScreen
       default:
         return Container();
     }
@@ -217,10 +216,6 @@ query (\$page: Int = 1, \$perPage: Int = 50) {
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
               label: 'Favoritos',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
             ),
           ],
           currentIndex: _selectedIndex,

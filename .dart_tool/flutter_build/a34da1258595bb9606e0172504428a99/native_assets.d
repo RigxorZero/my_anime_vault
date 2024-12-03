@@ -1,0 +1,1 @@
+ F:\\GitHub\\Dispositivos\ Moviles\\my_anime_vault\\.dart_tool\\flutter_build\\a34da1258595bb9606e0172504428a99\\native_assets.yaml: 
